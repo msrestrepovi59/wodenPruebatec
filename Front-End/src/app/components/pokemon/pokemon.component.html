@@ -1,0 +1,60 @@
+   <html>   
+    <div class="container mt-4">
+        <div class="logo-container">
+            <img src="assets/img/logo.png" alt="Logo" class="logo" />
+          </div>
+          
+    <!-- Header -->
+    <div class="header">
+       
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Busca tu Pokémon"
+        [(ngModel)]="searchTerm"
+        (input)="filterPokemons()"
+      />
+      <button class="btn-search">Buscar</button>
+    </div>
+  
+    
+    <div class="pokemon-grid">
+      <div class="card" *ngFor="let pokemon of filteredPokemons">
+        <div class="pokemon-image">
+          <img [src]="pokemon.imageUrl" [alt]="pokemon.name" />
+        </div>
+        <div class="pokemon-info">
+          <p class="pokemon-id">#{{ pokemon.id | number:'2.0-0' }}</p>
+          <h3>{{ pokemon.name }}</h3>
+          <button class="btn-details" (click)="openModal(pokemon)">Ver Habilidades</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Modal -->
+    <div *ngIf="isModalOpen" class="modal-overlay">
+        <div class="modal-content">
+          <h2>{{ selectedPokemon.name }}</h2>
+          <img [src]="selectedPokemon.imageUrl" alt="{{ selectedPokemon.name }}" />
+          <h2>Habilidades</h2>
+          <div *ngIf="selectedPokemonAbilities.length > 0" class="abilities-row">
+            <div *ngFor="let habilidad of selectedPokemonAbilities" class="ability-item">
+              <img [src]="habilidad.image" alt="{{ habilidad.name }}" class="ability-icon" />
+              
+              <h3>{{ habilidad.name }}</h3>
+            </div>
+          </div>
+      
+         
+          <p *ngIf="selectedPokemonAbilities.length === 0">
+            No se encontraron habilidades para este Pokémon.
+          </p>
+      
+          <button class="modal-close-btn"(click)="closeModal()">X</button>
+        </div>
+      </div>
+    
+  </div>
+  </html>
+
+  
